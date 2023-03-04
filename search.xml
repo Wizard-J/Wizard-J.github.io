@@ -1,0 +1,1052 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>HashRouter 和 window.location.hash</title>
+    <url>/2019/09/07/HashRouter%20%E5%92%8C%20window.location.hash/</url>
+    <content><![CDATA[<blockquote>
+<p>时间: 2019&#x2F;8&#x2F;15</p>
+</blockquote>
+<p>还有window.location有push方法可用，后来我在项目中遇到了，属基本操作，回头再补充</p>
+<span id="more"></span>
+<hr>
+
+<p><code>react-router-dom</code>中有两个Router（其实有三个）：<code>HashRouter</code>和<code>BrowserRouter</code>.</p>
+<p>使用BrowserRouter浏览器会在匹配的时候总是刷新页面。而HashRouter就不会。</p>
+<p>但当多个页面共用路由的时候，HashRouter就会弹出警告，甚至页面无法刷新，以及出现其他bug.</p>
+<p>我发现只要手动设置Hash就可以了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">window.location.hash=&quot;locationA&quot;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL初始化密码报错Your password does not satisfy the current policy requirements</title>
+    <url>/2019/09/07/MySQL%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AF%86%E7%A0%81%E6%8A%A5%E9%94%99Your%20password%20does%20not%20satisfy%20the%20current%20policy%20requirements/</url>
+    <content><![CDATA[<p>安装好MySQL初始化，报错：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SET</span> PASSWORD <span class="keyword">FOR</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> <span class="operator">=</span> PASSWORD(<span class="string">&#x27;123&#x27;</span>);</span><br><span class="line">ERROR <span class="number">1819</span> (HY000): Your password does <span class="keyword">not</span> satisfy the <span class="keyword">current</span> policy requirements</span><br></pre></td></tr></table></figure>
+<p>是因为新版本mysql不允许安全等级低的密码了，生活已经太艰难了，那么，为了强行设置简单密码，我们这样做：</p>
+<span id="more"></span>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> <span class="keyword">global</span> validate_password_policy<span class="operator">=</span><span class="number">0</span>;</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.05</span> sec)</span><br><span class="line"> </span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> <span class="keyword">global</span> validate_password_mixed_case_count<span class="operator">=</span><span class="number">0</span>;</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.00</span> sec)</span><br><span class="line"> </span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> <span class="keyword">global</span> validate_password_number_count<span class="operator">=</span><span class="number">3</span>;</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.00</span> sec)</span><br><span class="line"> </span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> <span class="keyword">global</span> validate_password_special_char_count<span class="operator">=</span><span class="number">0</span>;</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.00</span> sec)</span><br><span class="line"> </span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> <span class="keyword">global</span> validate_password_length<span class="operator">=</span><span class="number">3</span>;</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.00</span> sec)</span><br><span class="line"> </span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;validate_password%&#x27;</span>;</span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------------------------+-------+</span></span><br><span class="line"><span class="operator">|</span> Variable_name                        <span class="operator">|</span> <span class="keyword">Value</span> <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------------------------+-------+</span></span><br><span class="line"><span class="operator">|</span> validate_password_dictionary_file    <span class="operator">|</span>       <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> validate_password_length             <span class="operator">|</span> <span class="number">3</span>     <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> validate_password_mixed_case_count   <span class="operator">|</span> <span class="number">0</span>     <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> validate_password_number_count       <span class="operator">|</span> <span class="number">3</span>     <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> validate_password_policy             <span class="operator">|</span> LOW   <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> validate_password_special_char_count <span class="operator">|</span> <span class="number">0</span>     <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------------------------+-------+</span></span><br><span class="line"><span class="number">6</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"># 最后：</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SET</span> PASSWORD <span class="keyword">FOR</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> <span class="operator">=</span> PASSWORD(<span class="string">&#x27;123&#x27;</span>);</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected, <span class="number">1</span> warning (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mysql配合Django分页</title>
+    <url>/2019/09/07/Mysql%E9%85%8D%E5%90%88Django%E5%88%86%E9%A1%B5/</url>
+    <content><![CDATA[<p>终于写到文章模块了.<br>分页的思路:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT * FROM ARTICLE LIMIT $(numPerPage) OFFSET $(pageNum-1) * $(numPerPage) </span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> DbModel.models <span class="keyword">import</span> Article;</span><br><span class="line"></span><br><span class="line">Article.objects.order_by(<span class="string">&quot;-id&quot;</span>)[(pageNum-<span class="number">1</span>)*numPerPage : numberPerPage]</span><br></pre></td></tr></table></figure>
+<p>先去试验下，回来再记录。</p>
+<hr>
+]]></content>
+      <categories>
+        <category>Py后端</category>
+      </categories>
+      <tags>
+        <tag>Django</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx配置踩坑</title>
+    <url>/2019/09/07/Nginx%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<h2 id="时间：2019-x2F-09-x2F-07"><a href="#时间：2019-x2F-09-x2F-07" class="headerlink" title="时间：2019&#x2F;09&#x2F;07"></a>时间：2019&#x2F;09&#x2F;07</h2><p>喜大普奔，小张昨天把服务器玩崩了，重新装的阿里云镜像，数据库、软件全没了。记录重新部署路上各种奇坑：</p>
+<blockquote>
+<p>把打包好的项目部署到<code>nginx</code>上，一访问各种报<code>500</code>错误；</p>
+</blockquote>
+<p>最可恶的是，所有的<code>conf</code>文件都是我在服务器崩之前拷下来的原版<code>conf</code>文件，让人头秃。<br>原来，<code>nginx</code>不同版本<code>conf</code>写法不尽相同，最终：我把所有<code>conf</code>里的<code>server</code>对象都整理到了一起，才堪堪解决问题。</p>
+<span id="more"></span>
+<p>融合了全部<code>server</code>对象的<code>default.conf</code>内容:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">server &#123; <span class="comment"># 这个是默认自带的</span></span><br><span class="line">    listen       <span class="number">80</span>;</span><br><span class="line">    server_name  wizardj.cn;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 内容太多，不展示了</span></span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">server &#123; </span><br><span class="line">           listen <span class="number">80</span>;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">            listen <span class="number">80</span>;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># admin access</span></span><br><span class="line">server &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>500</code>终于解决了，开始<code>403</code>了，呵呵。。。</p>
+</blockquote>
+<p>不过小张作为一个后端出身的人才，<code>403</code>的规矩还是懂的，权限嘛，把<code>/etc/nginx/nginx.conf</code>文件中的<code>user</code>改为<code>root</code>就万事大吉了。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">user  root;</span><br><span class="line">worker_processes  <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">error_log  /var/log/nginx/error.log warn;</span><br><span class="line">pid        /var/run/nginx.pid;</span><br><span class="line">~</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>路径替换问题</p>
+</blockquote>
+<p>这一个小张以前没怎么注意过，<code>nginx</code>将<code>http://blog.wizardj.cn/api</code>请求转发到本地时并没有替换掉<code>/api</code>这个路径，我希望前端请求<code>http://blog.wizardj.cn/api/login</code>时，被请求的地址是：<code>&quot;http://proxyed.XXX/login&quot;</code>而并非是<code>http://proxyed.XXX/api/login</code>;</p>
+<p>原来：只要在proxy这个属性后面加上<code>/</code>就好了，即<code>proxy_pass http://proxyed.xxx/;</code>：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">            listen <span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">            server_name blog.wizardj.cn;</span><br><span class="line"></span><br><span class="line">            root ...;</span><br><span class="line"></span><br><span class="line">            index index.html;</span><br><span class="line"></span><br><span class="line">            location / &#123;</span><br><span class="line">                try_files $uri $uri/ /index.html;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            location /api/&#123;</span><br><span class="line">                proxy_pass http://proxyed.xxx/;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">           gzip on;</span><br><span class="line">           gzip_buffers <span class="number">32</span> 4k;</span><br><span class="line">           gzip_comp_level <span class="number">9</span>;</span><br><span class="line">           gzip_min_length <span class="number">200</span>;</span><br><span class="line">           gzip_types text/css text/xml application/javascript;</span><br><span class="line">           gzip_vary on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>服务器</category>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>antd实现读取上一次表单数据重新填充</title>
+    <url>/2019/09/07/antd%E5%AE%9E%E7%8E%B0%E8%AF%BB%E5%8F%96%E4%B8%8A%E4%B8%80%E6%AC%A1%E8%A1%A8%E5%8D%95%E6%95%B0%E6%8D%AE%E9%87%8D%E6%96%B0%E5%A1%AB%E5%85%85/</url>
+    <content><![CDATA[<p>忽然碰到一个需求：</p>
+<p>一张字段很多的<code>表单A</code>，中间需要创建新的表单，然后跳转到<code>表单B</code>创建一个子表单，再返回之前<code>表单A</code>，然后继续完成<code>表单A</code>中的字段信息，中途再跳到<code>表单C</code>…</p>
+<p>大致上就是表单填了一半了，卸载视图之后再重新挂载视图，如何恢复上次的数据。</p>
+<span id="more"></span>
+<p><strong>必要捷径</strong>:</p>
+<ul>
+<li>antd表单（Form）组件的字段值获取和赋值方式：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 表单数据获取</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">form</span>.<span class="title function_">validateFields</span>(<span class="function">(<span class="params">err,values</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;&gt;&gt;&gt;所有字段values:&quot;</span>,values)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 表单赋值</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">form</span>.<span class="title function_">setFieldsValue</span>(tempValue)</span><br></pre></td></tr></table></figure>
+
+<p><strong>实现思路</strong>：</p>
+<ul>
+<li>在跳转出页面之前，先获取Form表单的值，然后保存到window对象下;</li>
+<li>从<code>FromB</code>跳转回来后，默认先到<code>window</code>对象下获取之前保存的对象，然后通过<code>setFieldsValue()</code>方法赋值;</li>
+<li><code>FormA</code>成功提交后，将<code>window</code>下的临时对象清空;</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">componentDidMount = <span class="function">(<span class="params">e</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> tempValue = <span class="variable language_">window</span>.<span class="property">_dp_project_fields_temp</span>;</span><br><span class="line">        <span class="comment">// console.log(&quot;&gt;&gt;&gt;读取到上一次未完成数据：&quot;,tempValue)</span></span><br><span class="line">        <span class="comment">// 将数据赋值，重新填充到表单中</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">form</span>.<span class="title function_">setFieldsValue</span>(tempValue) <span class="comment">// 3、从window读取上一次填写的值</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">newDataSet =<span class="function">(<span class="params">e</span>)=&gt;</span>&#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">form</span>.<span class="title function_">validateFields</span>(<span class="function">(<span class="params">err,values</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// console.log(&quot;&gt;&gt;&gt;临时value:&quot;,values)</span></span><br><span class="line">        <span class="variable language_">window</span>.<span class="property">_dp_project_fields_temp</span> = values <span class="comment">// 1、window下临时保存</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">history</span>.<span class="title function_">push</span>(<span class="string">&quot;/dataSet/add&quot;</span>) <span class="comment">// 2、跳转到formB</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>axios用法</title>
+    <url>/2019/09/07/axios%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<blockquote>
+<p>时间：2019&#x2F;7&#x2F;08</p>
+</blockquote>
+<p>我是万万没想到，get请求也出问题了，get方法传递数组的时候，后台接到的参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[08/Jul/2019 17:31:15] &quot;GET /del/dataset/?data[]=3&amp;data[]=2 HTTP/1.1&quot; 200 36</span><br></pre></td></tr></table></figure>
+
+<p>后面莫名其妙的都带了一个’[ ]’，他们说用qs转一下，我就觉得不对，果然qs转完变成了这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[08/Jul/2019 17:34:12] &quot;GET /del/dataset/?0=data%255B0%255D%3D3%26data%255B1%255D%3D2 HTTP/1.1&quot; 200 36</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>是这样解决的：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Axios</span>.<span class="title function_">get</span>(<span class="string">&quot;/del/dataset/&quot;</span>,</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">params</span>:&#123;</span><br><span class="line">                        <span class="attr">data</span>:selectedDataSets</span><br><span class="line">                    &#125;,</span><br><span class="line">                    <span class="attr">paramsSerializer</span>: <span class="keyword">function</span>(<span class="params">params</span>)&#123;</span><br><span class="line">                        <span class="keyword">return</span> qs.<span class="title function_">stringify</span>(params,&#123;<span class="attr">arrayFormat</span>:<span class="string">&#x27;repeat&#x27;</span>&#125;)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">                .<span class="title function_">then</span>(<span class="function"><span class="params">response</span>=&gt;</span>&#123;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(response)</span><br><span class="line">                &#125;)</span><br><span class="line">                .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span>=&gt;</span>&#123;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(error)</span><br><span class="line">                &#125;)</span><br></pre></td></tr></table></figure>
+<p>后台接到的参数终于正常了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[08/Jul/2019 17:40:27] &quot;GET /del/dataset/?data=3&amp;data=2 HTTP/1.1&quot; 200 36</span><br></pre></td></tr></table></figure>
+<p>django后台接到这个请求后要这么处理：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ids=request.GET.getlist(&quot;data&quot;)</span><br></pre></td></tr></table></figure>
+<p>就可以得到全部数据了，不然只能得到数组的第一个元素。</p>
+<hr>
+
+<blockquote>
+<p>时间: 2019&#x2F;7&#x2F;06号：</p>
+</blockquote>
+<p>这一周又仔细研究了下请求方法，POST请求的三种写法：</p>
+<ul>
+<li>1、application&#x2F;json</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 这个场合就是普通请求，没有数组，没有文件。</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> data = &#123;<span class="string">&quot;code&quot;</span>:<span class="string">&quot;1234&quot;</span>,<span class="string">&quot;name&quot;</span>:<span class="string">&quot;yyyy&quot;</span>&#125;;</span><br><span class="line">axios.<span class="title function_">post</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.$url&#125;</span>/test/testRequest`</span>,data)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res=&gt;&#x27;</span>,res);            </span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2、Content-Type: multipart&#x2F;form-data</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 当有文件作为参数的时候，文件必须作为FormData进行上传</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> data = <span class="keyword">new</span> <span class="title class_">FormData</span>();</span><br><span class="line">data.<span class="title function_">append</span>(<span class="string">&#x27;code&#x27;</span>,<span class="string">&#x27;1234&#x27;</span>);</span><br><span class="line">data.<span class="title function_">append</span>(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;yyyy&#x27;</span>);</span><br><span class="line"></span><br><span class="line">axios.<span class="title function_">post</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.$url&#125;</span>/test/testRequest`</span>,data)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res=&gt;&#x27;</span>,res);            </span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>注意</strong>：这里的关键就是借助一个 FormData对象来传递参数就好了。</p>
+<ul>
+<li>3、Content-Type: application&#x2F;x-www-form-urlencoded</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 针对urlencoded格式要求</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"><span class="keyword">import</span> qs <span class="keyword">from</span> <span class="string">&#x27;Qs&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> data = &#123;<span class="string">&quot;code&quot;</span>:<span class="string">&quot;1234&quot;</span>,<span class="string">&quot;name&quot;</span>:<span class="string">&quot;yyyy&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">axios.<span class="title function_">post</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.$url&#125;</span>/test/testRequest`</span>,qs.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">    data</span><br><span class="line">&#125;))</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res=&gt;&#x27;</span>,res);            </span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>这里就是通过借助qs来讲data的json对象转换成urlencoded格式而已。</p>
+<hr>
+
+<blockquote>
+<p>时间: 2019&#x2F;7&#x2F;1:</p>
+</blockquote>
+<p>今天在封装深度学习系统的时候，发生了小故障。志浩在后台用了xml格式的数据来传递post请求参数，我使用axios，用json格式传输数据，，结果，果然后台能接收到请求但读不到数据。</p>
+<p>然后我就重写了数据后台，，，，你以为这就完了，然而并没有，我用Django重新封装了他的方法，发现还是读不到数据，同样还是可以接收到请求。这个bug在我纠结了好几个小时之后，终于调试通过了。原来Django接收数据是urlencoded格式，而axios请求体的格式是application&#x2F;json.解决的办法是：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> qs <span class="keyword">from</span> <span class="string">&quot;qs&quot;</span>;</span><br><span class="line"></span><br><span class="line">...一大段代码...</span><br><span class="line">axios.<span class="title function_">get</span>(url,<span class="attr">params</span>:&#123;qs.<span class="title function_">stringify</span>(data)&#125;)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function">()=&gt;</span>&#123;&#125;)</span><br><span class="line">    .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span>=&gt;</span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>原来对于{“key”:value}这种json数据未被qs处理前是字符串格式的”{‘key’:value}”，导致后台无法识别”key”这种参数，qs自动封装了方法，去掉了其中的引号就可以识别key了。</p>
+<ul>
+<li>get请求:</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">axios.<span class="title function_">get</span>(<span class="string">&quot;api/archives?page=1&quot;</span>)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="keyword">function</span>(<span class="params">response</span>)&#123;</span><br><span class="line">            _this.<span class="title function_">setState</span>(&#123;</span><br><span class="line">                <span class="attr">timeline</span>:response.<span class="property">data</span>.<span class="property">data</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;).<span class="title function_">catch</span>(<span class="keyword">function</span>(<span class="params">error</span>)&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(error);</span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>请求路径是creact-react-app注入（eject）之后自动在webpack上配置好了的。</p>
+<p>发起请求的时候自动注入，只需要在package.json中设置参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;proxy&quot;:&quot;http://localhost:8000/&quot;</span><br></pre></td></tr></table></figure>
+<p>需要配置请求头的写法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="title function_">configIP</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="string">&#x27;headers&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;X-Forwarded-For&#x27;</span>: <span class="title function_">getRandomIp</span>(),  </span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;Cache-Control&quot;</span>: <span class="string">&quot;no-cache&quot;</span>,</span><br><span class="line">    <span class="string">&#x27;withCredentials&#x27;</span>: <span class="literal">true</span>,   <span class="comment">// 用于跨越处理</span></span><br><span class="line">    <span class="string">&#x27;validateStatus&#x27;</span>: <span class="literal">null</span>,   <span class="comment">// 用于跳过请求校验</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">update</span>(<span class="params"></span>)&#123;</span><br><span class="line">  axios.<span class="title function_">get</span>(<span class="string">&quot;ajax/score/data?mt=&quot;</span>+<span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">mt</span>,<span class="variable language_">this</span>.<span class="title function_">configIP</span>())</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> data = response.<span class="property">data</span>.<span class="property">rs</span>;</span><br><span class="line">    <span class="comment">// console.log(data);</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">filtAndUpdate</span>(data);</span><br><span class="line">  &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">error</span>=&gt;</span>&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(error)&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>X-Forwarded-For</code>：注意这个请求头参数，在我请求数据的时候，目标网站对我频繁发起请求后，我的IP被关进了小黑屋，于是我就设置了这个请求头，果然再次成功。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>网络请求</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centOS下部署mysql（保存备用）</title>
+    <url>/2019/09/07/centOS%E4%B8%8B%E9%83%A8%E7%BD%B2mysql%EF%BC%88%E4%BF%9D%E5%AD%98%E5%A4%87%E7%94%A8%EF%BC%89/</url>
+    <content><![CDATA[<p>1.下载<code>mysql</code>源安装包</p>
+<p><code>$ wget http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm</code></p>
+<p>2.安装<code>mysql</code>源<br><code>$ yum localinstall mysql57-community-release-el7-8.noarch.rpm </code></p>
+<p>3.检查<code>mysql</code>源是否安装成功<br><code>$ yum repolist enabled | grep &quot;mysql.*-community.*&quot;</code></p>
+<p>4.修改<code>yum</code>源 【可跳过】<br><code>$ vim /etc/yum.repos.d/mysql-community.repo</code></p>
+<span id="more"></span>
+<p>改变默认安装的<code>mysql</code>版本。比如要安装<code>5.6</code>版本，将<code>5.7</code>源的<code>enabled=1</code>改成<code>enabled=0</code>。然后再将<code>5.6</code>源的<code>enabled=0</code>改成<code>enabled=1</code>即可。<br>备注：<code>enabled=1</code>表示即将要安装的<code>mysql</code>版本，这个文件也可以不修改，默认安装<code>mysql</code>最高版本</p>
+<p>5.安装<code>MySQL </code><br>这一步才是真正安装mysql<br><code>$ yum install mysql-community-server</code></p>
+<p>6.启动<code>MySQL</code>服务并设置开机启动</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">$ systemctl <span class="built_in">start</span> mysqld</span><br><span class="line">$ systemctl enable mysqld</span><br><span class="line">$ systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<p>7.端口开放</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ firewall-cmd --zone=public --add-port=3306/tcp --permanent</span><br><span class="line">$ firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<p>8.修改root本地登录密码<br> 1）查看mysql密码<br><code>$ grep &#39;temporary password&#39; /var/log/mysqld.log</code></p>
+<p>2）连接<code>mysql</code><br><code>$ mysql -uroot -p</code><br>3）修改密码【注意：后面的分号一定要跟上】<br><code>mysql&gt; ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;MyNewPass4!&#39;;</code><br>或者：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> password <span class="keyword">for</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span><span class="operator">=</span>password(<span class="string">&#x27;MyNewPass4!&#x27;</span>); </span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;%password%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>9.添加远程登录用户<br><code>mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#39;caoxiaobo&#39;@&#39;%&#39; IDENTIFIED BY &#39;Caoxiaobo0917!&#39; WITH GRANT OPTION;</code></p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>django踩坑</title>
+    <url>/2019/09/07/django%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<blockquote>
+<p>时间: 2019&#x2F;7&#x2F;09：</p>
+</blockquote>
+<p>没错我想开了，菜鸟上的django教程坑太多了，它写的很简练，但是坑多。</p>
+<p>关于数据库模型查询数据的结果集这一块，菜鸟上写的是用一个for in来遍历结果集object中的数据，然后返回，所以我一开始也是这么做的：</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取全部数据集</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">listDataSets</span>(<span class="params">request</span>):</span><br><span class="line">    result = []</span><br><span class="line">    allData = DataSet.objects.<span class="built_in">all</span>().order_by(<span class="string">&#x27;-id&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> obj <span class="keyword">in</span> allData:</span><br><span class="line">        item = &#123;&#125;</span><br><span class="line">        item[<span class="string">&#x27;key&#x27;</span>] = obj.<span class="built_in">id</span></span><br><span class="line">        item[<span class="string">&#x27;id&#x27;</span>] = obj.<span class="built_in">id</span></span><br><span class="line">        item[<span class="string">&#x27;name&#x27;</span>] = obj.name</span><br><span class="line">        item[<span class="string">&#x27;description&#x27;</span>] = obj.description</span><br><span class="line">        item[<span class="string">&#x27;size&#x27;</span>] = obj.size</span><br><span class="line">        item[<span class="string">&#x27;createdBy&#x27;</span>] = obj.createdBy</span><br><span class="line">        item[<span class="string">&#x27;createdAt&#x27;</span>] = obj.createdAt.strftime( <span class="string">&#x27;%y-%m-%d %I:%M:%S %p&#x27;</span> )  </span><br><span class="line">        item[<span class="string">&#x27;status&#x27;</span>] = obj.status</span><br><span class="line">        item[<span class="string">&#x27;path&#x27;</span>] = obj.path</span><br><span class="line">        item[<span class="string">&#x27;clazzNum&#x27;</span>] = obj.clazzNum</span><br><span class="line">        result.append(item)</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(json.dumps(result))</span><br></pre></td></tr></table></figure>
+
+<p>我发现这样太傻了，万一有几十个字段怕不是要被搞到死哟~</p>
+<p>直接返回这个结果集肯定是会被报错的，然后今天早上我发现了一个神奇的包：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.core <span class="keyword">import</span> serializers</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.core <span class="keyword">import</span> serializers</span><br><span class="line"><span class="comment"># 获取数据集信息</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getDataSet</span>(<span class="params">request</span>):</span><br><span class="line">    result = DataSet.objects.<span class="built_in">filter</span>(<span class="built_in">id</span>=request.GET.get(<span class="string">&quot;id&quot;</span>))</span><br><span class="line">    <span class="keyword">return</span> HttpResponse(serializers.serialize(<span class="string">&#x27;json&#x27;</span>,result))</span><br></pre></td></tr></table></figure>
+
+<p>然后竟然成功了，呵呵。。。万幸万幸。。。</p>
+<p><em><strong>后续</strong></em>：<br>前两天我又发现DJango本身还有另外一个专门应对这个场合的包：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.forms.models <span class="keyword">import</span> model_to_dict</span><br><span class="line"></span><br><span class="line">result = &#123;&#125; </span><br><span class="line"><span class="keyword">for</span> service <span class="keyword">in</span> ServiceSet.objects.<span class="built_in">all</span>():</span><br><span class="line">    <span class="comment"># 获取数据</span></span><br><span class="line">    item = model_to_dict(service)</span><br><span class="line">    result[service.<span class="built_in">id</span>] = item</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+
+<p>因为志浩的深度学习系统是用python写的，为了免去跨语言的麻烦，我也要用python封装web接口，所以选择了django框架写接口。从此踏上了踩坑之旅。</p>
+<blockquote>
+<p>坑一</p>
+</blockquote>
+<p>在菜鸟上的表单POST提交方法写的好好的接口，换了axios之后后台接不到参数，不管是request.POST(“id”)还是request.POST.get(“id”)都不行<br>神奇的发现必须采用content-type : urlencoded才能接收到，在axios传递的参数上用qs.parse(data)转一下就立马可以了。</p>
+<blockquote>
+<p>坑二</p>
+</blockquote>
+<p>官方反csrf标记token导致无法请求接口。<br>官方有说明，只要在setting中注释掉这一行就好了：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">MIDDLEWARE = [</span><br><span class="line">    <span class="string">&#x27;django.middleware.security.SecurityMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.middleware.common.CommonMiddleware&#x27;</span>,</span><br><span class="line">    <span class="comment">#&#x27;django.middleware.csrf.CsrfViewMiddleware&#x27;,</span></span><br><span class="line">    <span class="string">&#x27;django.contrib.auth.middleware.AuthenticationMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.messages.middleware.MessageMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.middleware.clickjacking.XFrameOptionsMiddleware&#x27;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>坑三</p>
+</blockquote>
+<p>建的好好的数据库模型，从服务器上下载到本地，只要一运行迁移命令，就会报错：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>python manage.py migrate</span><br><span class="line">The above exception was the direct cause of the following exception:</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;manage.py&quot;</span>, line <span class="number">21</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"><span class="comment">#.....省略一大堆路径信息.....</span></span><br><span class="line">django.db.utils.OperationalError: (<span class="number">1067</span>, <span class="string">&quot;Invalid default value for &#x27;status&#x27;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我发现，只要这个dbmodel文件夹是由命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">django-admin startapp TestModel</span><br></pre></td></tr></table></figure>
+<p>生成的才可以，不然就会各种字段默认值不符合之类的错误。</p>
+<p>其实也还可以这样改：在model文件夹目录下的</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">model/migrations/000X_auto_timestamp.py</span><br></pre></td></tr></table></figure>
+<p>里面把字段的defaultvalue改了就好了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Generated by Django 2.2.2 on 2019-07-08 01:44</span><br><span class="line"></span><br><span class="line">from django.db import migrations, models</span><br><span class="line">import django.utils.timezone</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Migration(migrations.Migration):</span><br><span class="line"></span><br><span class="line">    dependencies = [</span><br><span class="line">        (&#x27;DbModel&#x27;, &#x27;0001_initial&#x27;),</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    operations = [</span><br><span class="line">        migrations.AddField(</span><br><span class="line">            model_name=&#x27;dataset&#x27;,</span><br><span class="line">            name=&#x27;clazzName&#x27;,</span><br><span class="line">            field=models.TextField(default=&quot;&quot;),</span><br><span class="line">            preserve_default=False,</span><br><span class="line">        ),</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Py后端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>es9正则</title>
+    <url>/2019/09/07/es9%E6%AD%A3%E5%88%99/</url>
+    <content><![CDATA[<p>前阵子面了字节跳动的前端，问了很多正则的问题，我自认为最近刚好用过，没想到回答的并不好，今天看了一篇文章，记录下es9的正则表达式写法。</p>
+<p>面试题：对于<code>&quot;2019-07-28&quot;</code>，封装一个<code>date.getYear()</code>方法。</p>
+<span id="more"></span>
+<p>&#x2F;&#x2F; <code>es9</code>分组命名功能写法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> date = <span class="string">&quot;2019-07-28&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> reg = <span class="regexp">/(?&lt;year&gt;\d&#123;2,&#125;)-(?&lt;month&gt;\d&#123;2&#125;)-(?&lt;day&gt;\d&#123;2&#125;)/</span>;</span><br><span class="line"><span class="keyword">const</span> result = reg.<span class="title function_">exec</span>(date);</span><br></pre></td></tr></table></figure>
+<p>只要这样写，就可以得到带有group对象的result了。然后提取日期方法就是:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">result.<span class="property">groups</span>.<span class="property">year</span>  <span class="comment">// 输出2019</span></span><br></pre></td></tr></table></figure>
+<p>不分组的话就得：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">result[<span class="number">1</span>] <span class="comment">// 2019,result[0]是2019-07-28</span></span><br><span class="line">result[<span class="number">2</span>] <span class="comment">// 07</span></span><br><span class="line">result[<span class="number">3</span>] <span class="comment">// 28</span></span><br></pre></td></tr></table></figure>
+<p>所以这道题这么写就好了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> date  = <span class="string">&quot;2019-07-28&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">myDate</span>&#123;</span><br><span class="line">    </span><br><span class="line">    regQ = <span class="regexp">/(?&lt;year&gt;\d&#123;2,&#125;)-(?&lt;month&gt;\d&#123;2&#125;)-(?&lt;day&gt;\d&#123;2&#125;)/</span>;</span><br><span class="line">    result = <span class="variable language_">this</span>.<span class="property">regQ</span>.<span class="title function_">exec</span>(date);</span><br><span class="line">    </span><br><span class="line">    getYear = <span class="function">()=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">result</span>.<span class="property">groups</span>.<span class="property">year</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> today = <span class="keyword">new</span> <span class="title function_">myDate</span>(date);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(today.<span class="title function_">getYear</span>());</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git ignore规则</title>
+    <url>/2019/09/07/git%20ignore%E8%A7%84%E5%88%99/</url>
+    <content><![CDATA[<p>他主要是分保守原则和开放原则两种写法：</p>
+<blockquote>
+<p>保守写法</p>
+</blockquote>
+<p>就是把所有的都忽略，然后其他的都用 <code>!文件夹名</code>来设置不忽略的文件。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Logs</span></span><br><span class="line">logs</span><br><span class="line"><span class="comment"># 修复忽略排除日志视图模块</span></span><br><span class="line">!/front_end/src/views/Logs </span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<blockquote>
+<p>开放写法</p>
+</blockquote>
+<p>就是github自动生成那个的写法，也是常规写法，就是默认都不忽略，只写忽略哪些文件。</p>
+<p>如果已经提交过的新设置ignore可能不生效，怎么办呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m &#x27;update .gitignore&#x27;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>工具</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js实现瀑布流</title>
+    <url>/2019/09/07/js%E5%AE%9E%E7%8E%B0%E7%80%91%E5%B8%83%E6%B5%81/</url>
+    <content><![CDATA[<blockquote>
+<p>直接抄代码即可</p>
+</blockquote>
+<span id="more"></span>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;ie=edge&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>fall<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        *&#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">padding</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">body</span>&#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">display</span>: flex;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">justify-content</span>: space-around;  </span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">li</span>&#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">float</span>: left;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">list-style</span>: none;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-right</span>: <span class="number">10px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>:<span class="number">300px</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-class">.clear</span><span class="selector-pseudo">::after</span>&#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">content</span>:<span class="string">&#x27;&#x27;</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">display</span>: block;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">height</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">clear</span>: both;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">img</span>&#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">padding-top</span>: <span class="number">10px</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css"></span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;wrapper&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;clear&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;col&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;col&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;col&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params">data</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            data = [];</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">9</span>; i++)&#123;</span></span><br><span class="line"><span class="language-javascript">                data.<span class="title function_">push</span>(<span class="string">&quot;images/fall/&quot;</span>+i+<span class="string">&quot;.jpg&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">return</span> data;</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">        </span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">getMinHeight</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">const</span> oLi = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;col&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> index = <span class="number">0</span>;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> oH = oLi[index].<span class="property">offsetHeight</span>;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;oLi.<span class="property">length</span>; i++)&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">if</span>(oLi[i].<span class="property">offsetHeight</span> &lt;= oH)&#123;</span></span><br><span class="line"><span class="language-javascript">                    index=i;</span></span><br><span class="line"><span class="language-javascript">                    oH = oLi[i].<span class="property">offsetHeight</span>;</span></span><br><span class="line"><span class="language-javascript">                &#125;</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">return</span> index;</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">appendDom</span>(<span class="params">data</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">const</span> container = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;col&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">            data.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item,index</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">const</span> img = <span class="keyword">new</span> <span class="title class_">Image</span>();</span></span><br><span class="line"><span class="language-javascript">                img.<span class="property">src</span> = item;</span></span><br><span class="line"><span class="language-javascript">                img.<span class="property">width</span> = <span class="number">300</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="comment">// console.log(img)</span></span></span><br><span class="line"><span class="language-javascript">                container[<span class="title function_">getMinHeight</span>()].<span class="title function_">appendChild</span>(img);</span></span><br><span class="line"><span class="language-javascript">            &#125;)</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">        </span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> vH = <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">clientHeight</span>; <span class="comment">// 视口高度</span></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="property">onscroll</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> sT = <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">scrollTop</span> || <span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">scrollTop</span>; <span class="comment">// 谷歌不同版本的滚动高度</span></span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">if</span>(sT + vH &gt;= <span class="number">0.8</span>* <span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">scrollHeight</span>)&#123; <span class="comment">// *0.8 的目的是防止出现白块,scrollHeight是元素的css固有高度（包括被父元素挡住的部分）</span></span></span><br><span class="line"><span class="language-javascript">                <span class="title function_">appendDom</span>(<span class="title function_">getData</span>())</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">appendDom</span>(<span class="title function_">getData</span>());</span></span><br><span class="line"><span class="language-javascript">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jupyter 中新增kernel</title>
+    <url>/2019/09/07/jupyter%20%E4%B8%AD%E6%96%B0%E5%A2%9Ekernel/</url>
+    <content><![CDATA[<p><code>Anaconda</code> 中默认使用了<code>python37</code>（默认只支持<code>tensorflow13.1</code>以上版本那位），环境显然不能满足我的需求，然后，我的jupyter也没办法用了，百度了下，只能增加内核的方法来解决，常识了几种方法后，这样是有效的：</p>
+<span id="more"></span>
+<ul>
+<li>首先，在<code>myPython2</code>环境下确认是否安装了<code>ipykernel</code>这个包，如果没有则安装。<code>pip install ipykernel</code></li>
+<li>然后，在这个环境下输入<code>python -m ipykernel install --name XXXX</code>后边的名字可以自己定义，可以和环境一样，也可以随便起，是显示在<code>jupyter notebook</code>中的，这里我依然使用<code>myPyhon2</code>这个名字。</li>
+<li>然后启动<code>jupyter</code>，会发现现在有了<code>myPython2</code>这个选项了！</li>
+</ul>
+<p>记下来，备用</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kears 的各种callback</title>
+    <url>/2019/10/27/kears%20%E7%9A%84%E5%90%84%E7%A7%8Dcallback/</url>
+    <content><![CDATA[<p>最近遇到一个困难，使用xshell连接服务器开启训练，服务器在进行训练的过程中，xshell不可以断开连接，否则主线程中断必然导致训练线程中断；<br>长期保持连接是不合适的，所以必须将django部署到后台，但试验发现uwsgi打印日志有bug，无法打印子线程的错误。</p>
+<span id="more"></span>
+<p>采用了nohup命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nohup python3 -u manage.py runserver 0.0.0.0:8000 &gt; server.out 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<p>输出正常了。</p>
+<p><code>keras</code>训练日志仍然无法正常被捕获，经过两日查找文献，了解到<code>callback</code>的使用。<br>要捕获日志信息，总的来说，有两种方案：</p>
+<blockquote>
+<p>方法一：使用history方法</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">history = model.fit_generator(data_generator_wrapper(lines[:num_train], batch_size, input_shape, anchors, num_classes),</span><br><span class="line">                steps_per_epoch=<span class="built_in">max</span>(<span class="number">1</span>, <span class="number">1000</span>),</span><br><span class="line">                validation_data=data_generator_wrapper(lines[num_train:], batch_size, input_shape, anchors, num_classes),</span><br><span class="line">                validation_steps=<span class="built_in">max</span>(<span class="number">1</span>, num_val//batch_size),</span><br><span class="line">                epochs=my_epochs,<span class="comment">#9-epochs是迭代次数，越大训练时间就越长</span></span><br><span class="line">                initial_epoch=<span class="number">0</span>,</span><br><span class="line">                callbacks=[logging, checkpoint, mycall],</span><br><span class="line">                verbose=<span class="number">2</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;自定义打印&gt;&gt;&gt;&quot;</span>,history.history)</span><br><span class="line">        <span class="built_in">print</span>(history.epoch)</span><br><span class="line">        <span class="built_in">print</span>(history.loss)</span><br></pre></td></tr></table></figure>
+
+<p>我发现history方法只能在训练最后打印，这与我们实时记录的需求不符合。经过探索，采取了方法二。</p>
+<blockquote>
+<p>方法二：使用callback</p>
+</blockquote>
+<p>仔细观察就会发现，拟合函数中传入了callback，只需要自定义callback就可以了。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> strftime, localtime</span><br><span class="line"><span class="keyword">from</span> keras.callbacks <span class="keyword">import</span> Callback</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyCallback</span>(<span class="title class_ inherited__">Callback</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_epoch_begin</span>(<span class="params">self,epoch,logs</span>):</span><br><span class="line">        <span class="built_in">print</span>(strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>),<span class="string">&quot;&gt;&gt;&gt;&quot;</span>,self.params,<span class="string">&quot;\nepoch:&quot;</span>,epoch,<span class="string">&quot;\nlogs:&quot;</span>,logs)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;/home/dp/Django_Api/back_end/DeepLearning/data_1.log&quot;</span>, <span class="string">&quot;a+&quot;</span>) <span class="keyword">as</span> writer:</span><br><span class="line">            writer.write(strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)+<span class="string">&quot;&gt;&gt;&gt;&quot;</span>+<span class="built_in">str</span>(self.params)+<span class="string">&quot;\nepoch:&quot;</span>+<span class="built_in">str</span>(epoch)+<span class="string">&quot;\nlogs:&quot;</span>+<span class="built_in">str</span>(logs)+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">            writer.close()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_epoch_end</span>(<span class="params">self,epoch,logs</span>):</span><br><span class="line">        <span class="built_in">print</span>(strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>),<span class="string">&quot;&lt;&lt;&lt;&quot;</span>,self.params,<span class="string">&quot;\nepoch:&quot;</span>,epoch,<span class="string">&quot;\nlogs:&quot;</span>,logs,<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;/home/dp/Django_Api/back_end/DeepLearning/data_1.log&quot;</span>, <span class="string">&quot;a+&quot;</span>) <span class="keyword">as</span> writer:</span><br><span class="line">            writer.write(strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)+<span class="string">&quot;&gt;&gt;&gt;&quot;</span>+<span class="built_in">str</span>(self.params)+<span class="string">&quot;\nepoch:&quot;</span>+<span class="built_in">str</span>(epoch)+<span class="string">&quot;\nlogs:&quot;</span>+<span class="built_in">str</span>(logs)+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">            writer.close()</span><br></pre></td></tr></table></figure>
+
+<p>然后在拟合函数中传入即可</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">mycall = MyCallback()</span><br><span class="line">model.fit_generator(data_generator_wrapper(lines[:num_train], batch_size, input_shape, anchors, num_classes),</span><br><span class="line">            steps_per_epoch=<span class="built_in">max</span>(<span class="number">1</span>, <span class="number">500</span>),</span><br><span class="line">            validation_data=data_generator_wrapper(lines[num_train:], batch_size, input_shape, anchors, num_classes),</span><br><span class="line">            validation_steps=<span class="built_in">max</span>(<span class="number">1</span>, num_val//batch_size),</span><br><span class="line">            epochs=my_epochs2,<span class="comment">#12-第二阶段的epoch</span></span><br><span class="line">            initial_epoch=<span class="number">1300</span>,</span><br><span class="line">            callbacks=[logging, checkpoint,reduce_lr, mycall],</span><br><span class="line">            verbose=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>keras</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>keras 的六类callback方法补充</title>
+    <url>/2019/10/27/keras%20%E7%9A%84%E5%85%AD%E7%B1%BBcallback%E6%96%B9%E6%B3%95%E8%A1%A5%E5%85%85/</url>
+    <content><![CDATA[<blockquote>
+<p>六种<code>callback</code>在不同声明周期被调用:</p>
+</blockquote>
+<ul>
+<li><p>on_epoch_begin: 在每个epoch开始时调用</p>
+</li>
+<li><p>on_epoch_end: 在每个epoch结束时调用</p>
+</li>
+<li><p>on_batch_begin: 在每个batch开始时调用</p>
+</li>
+<li><p>on_batch_end: 在每个batch结束时调用</p>
+</li>
+<li><p>on_train_begin: 在训练开始时调用</p>
+</li>
+<li><p>on_train_end: 在训练结束时调用</p>
+<span id="more"></span>
+<blockquote>
+<p>主要参数</p>
+</blockquote>
+</li>
+<li><p><code>params</code>：字典，训练参数集（如信息显示方法<code>verbosity</code>，<code>batch</code>大小，<code>epoch</code>数）</p>
+</li>
+<li><p><code>model</code>：<code>keras.models.Model</code>对象，为正在训练的模型的引用</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">roc_callback</span>(keras.callbacks.Callback):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,training_data, validation_data</span>):</span><br><span class="line">        </span><br><span class="line">        self.x = training_data[<span class="number">0</span>]</span><br><span class="line">        self.y = training_data[<span class="number">1</span>]</span><br><span class="line">        self.x_val = validation_data[<span class="number">0</span>]</span><br><span class="line">        self.y_val = validation_data[<span class="number">1</span>]</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_train_begin</span>(<span class="params">self, logs=&#123;&#125;</span>):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_train_end</span>(<span class="params">self, logs=&#123;&#125;</span>):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_epoch_begin</span>(<span class="params">self, epoch, logs=&#123;&#125;</span>):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_epoch_end</span>(<span class="params">self, epoch, logs=&#123;&#125;</span>):        </span><br><span class="line">        y_pred = self.model.predict(self.x)</span><br><span class="line">        roc = roc_auc_score(self.y, y_pred)      </span><br><span class="line">        </span><br><span class="line">        y_pred_val = self.model.predict(self.x_val)</span><br><span class="line">        roc_val = roc_auc_score(self.y_val, y_pred_val)      </span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;\rroc-auc: %s - roc-auc_val: %s&#x27;</span> % (<span class="built_in">str</span>(<span class="built_in">round</span>(roc,<span class="number">4</span>)),<span class="built_in">str</span>(<span class="built_in">round</span>(roc_val,<span class="number">4</span>))),end=<span class="number">100</span>*<span class="string">&#x27; &#x27;</span>+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_batch_begin</span>(<span class="params">self, batch, logs=&#123;&#125;</span>):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_batch_end</span>(<span class="params">self, batch, logs=&#123;&#125;</span>):</span><br><span class="line">        <span class="keyword">return</span>  </span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>keras</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pip install package 报错解决</title>
+    <url>/2019/09/07/pip%20install%20package%20%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Could not find a version that satisfies the requirement Jinja2==2.6 (from versions: )</span><br><span class="line">No matching distribution found for Jinja2==2.6</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>总是出现类似于这种的报错，是因为网络的问题，要使用国内的镜像源来加速：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install pymongo -i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com</span><br></pre></td></tr></table></figure>
+<p>就可以了，如果还是出错，多试几次，已经解决.</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python 停止线程的实用方法</title>
+    <url>/2019/09/07/python%20%E5%81%9C%E6%AD%A2%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%AE%9E%E7%94%A8%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>之所以想终止线程，是因为线程被卡在了一个地方，肯能是<code>while True</code>循环，也可能是需要运算时间很长的语句，所以也就两个思路：</p>
+<blockquote>
+<p>退出 while 循环</p>
+</blockquote>
+<p>当然是把<code>while</code>判断标记手动的改为<code>false</code>，这无可厚非。</p>
+<p>但是在做深度学习算法的时候，它线程里面没有<code>while</code>循环，<code>train</code>方法本身就是会执行很长时间，怎么办呢？</p>
+<blockquote>
+<p>手动抛出异常</p>
+</blockquote>
+<span id="more"></span>
+<p>具体写法是这样的，亲测有效：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> inspect</span><br><span class="line"><span class="keyword">import</span> ctypes</span><br><span class="line"></span><br><span class="line">train_thread_pool = []</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">_async_raise</span>(<span class="params">tid, exctype</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;raises the exception, performs cleanup if needed&quot;&quot;&quot;</span></span><br><span class="line">    tid = ctypes.c_long(tid)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> inspect.isclass(exctype):</span><br><span class="line">        exctype = <span class="built_in">type</span>(exctype)</span><br><span class="line">    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))</span><br><span class="line">    <span class="keyword">if</span> res == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&quot;invalid thread id&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> res != <span class="number">1</span>:</span><br><span class="line">        <span class="comment"># &quot;&quot;&quot;if it returns a number greater than one, you&#x27;re in trouble,</span></span><br><span class="line">        <span class="comment"># and you should call it again with exc=NULL to revert the effect&quot;&quot;&quot;</span></span><br><span class="line">        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">raise</span> SystemError(<span class="string">&quot;PyThreadState_SetAsyncExc failed&quot;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">stop_thread</span>(<span class="params">thread</span>):</span><br><span class="line">    _async_raise(thread.ident, SystemExit)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestThread</span>(threading.Thread):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,param1</span>):</span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.param1 = param1</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;begin&quot;</span>)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;running&quot;</span>,<span class="string">&quot;---param1:&quot;</span>,self.param1)</span><br><span class="line">            time.sleep(<span class="number">0.1</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;end&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    t = TestThread(<span class="string">&quot;aaaa&quot;</span>)</span><br><span class="line">    train_thread_pool.append(t)</span><br><span class="line">    <span class="built_in">print</span>(train_thread_pool[<span class="number">0</span>])</span><br><span class="line">    t.start()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    stop_thread(t)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;----------stoped---------&quot;</span>)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Py后端</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python 源的设置方法</title>
+    <url>/2020/05/03/python%20%E6%BA%90%E7%9A%84%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>[1] 在我的电脑上的地址栏输入：<code>%appdata%</code> ，然后回车。<br>[2] 在里面新建一个名为 pip 的文件夹。<br>[3] 在 pip 文件夹里面新建一个文件叫做 pip.ini ,内容写如下即可。实际就是这么一个文件 :<code>%appdata%\pip\pip.ini</code></p>
+<span id="more"></span>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-attr">[global]</span></span><br><span class="line">timeout = <span class="number">6000</span></span><br><span class="line">index-url = https://mirrors.aliyun.com/pypi/simple/</span><br><span class="line">trusted-host = mirrors.aliyun.com</span><br></pre></td></tr></table></figure>
+<p>[4] 接下来，用 pip 试试安装各种库.<br>[5] 使用pyreadline库，可实现Windows中python的tab键补全，安装如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip  install pyreadline</span><br></pre></td></tr></table></figure>
+<p>[6] 其他使用示例</p>
+<ul>
+<li>升级pip</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python -m pip install -U pip</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>安装相关库</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python -m pip install psutil</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>卸载相关库</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python -m pip uninstall psutil</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看已安装的库</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python -m pip freeze</span><br></pre></td></tr></table></figure>
+
+<p>[7] pip安装</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python pip-<span class="number">19.0</span><span class="number">.3</span>-py2.py3-none-<span class="built_in">any</span>.whl/pip install --no-index pip-<span class="number">19.0</span><span class="number">.3</span>-py2.py3-none-<span class="built_in">any</span>.whl</span><br><span class="line"></span><br><span class="line">python pip-<span class="number">19.2</span><span class="number">.1</span>-py2.py3-none-<span class="built_in">any</span>.whl/pip install --no-index pip-<span class="number">19.2</span><span class="number">.1</span>-py2.py3-none-<span class="built_in">any</span>.whl</span><br><span class="line"></span><br><span class="line">python pip-<span class="number">19.3</span><span class="number">.1</span>-py2.py3-none-<span class="built_in">any</span>.whl/pip install --no-index pip-<span class="number">19.3</span><span class="number">.1</span>-py2.py3-none-<span class="built_in">any</span>.whl</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>工具</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python2和python3环境变量冲突</title>
+    <url>/2019/09/07/python2%E5%92%8Cpython3%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%86%B2%E7%AA%81/</url>
+    <content><![CDATA[<blockquote>
+<p>时间: 2019&#x2F;7&#x2F;19</p>
+</blockquote>
+<p>我发现，我重新安装了python35之后，使用pip命令，调用的还是python37的pip，这就导致了我无法安装tensorflow1.13.1以前的版本，间接地导致了我没办法跑志浩的程序。</p>
+<p>经过探索，我发现只要这样写就可以了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 -m pip install PIL</span><br></pre></td></tr></table></figure>
+<p>这样可以指定调用哪个python版本的pip，我事先已经将这个python3重命名成了python35.exe的名字，就可以使用python35的pip了。</p>
+<span id="more"></span>
+
+<p>以前安装了python2，现在安装了python3跑Django，尴尬的发现gitbash中的python还是2.7版本的，并没有变更过来，所以就各种“cannot find moduel django.http”云云。。。</p>
+<blockquote>
+<p><strong>解决方法</strong>：环境变量不动，把C:\Users\J\Anaconda3 这个目录下的python.exe文件改名成pyhon3，然后cmd中就可以使用python3 –version来验证了。</p>
+</blockquote>
+<p>然后可以使用pip命令，神奇的发现这个错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">J@DESKTOP-QBBPEFE MINGW64 /e/project/DeepLearning/BackEnd/DeepLearning</span><br><span class="line">$ pip</span><br><span class="line">Unable to create process using &#x27;C:\Users\J\Anaconda3\python.exe C:\Users\J\Anaconda3\Scripts\pip-script.py &#x27;</span><br></pre></td></tr></table></figure>
+<p>怎么办呢？</p>
+<p>方法是：</p>
+<blockquote>
+<p>针对各个版本的解释器执行类似以下操作</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 -m pip install --upgrade pip</span><br><span class="line">python -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
+<p>然后就可以输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip2 -V</span><br><span class="line">pip3 -V</span><br></pre></td></tr></table></figure>
+<p>来验证了。</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python学习笔记</title>
+    <url>/2019/09/07/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="os-模块基操："><a href="#os-模块基操：" class="headerlink" title="os 模块基操："></a>os 模块基操：</h3><blockquote>
+<p>1、切割文件名：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">file_path = <span class="string">&quot;D:/test/test.py&quot;</span></span><br><span class="line">(filepath,tempfilename) = os.path.split(file_path)</span><br><span class="line">(filename,extension) = os.path.splitext(tempfilename)</span><br><span class="line"></span><br><span class="line"><span class="comment">#所以，得到文件名的方法就是：</span></span><br><span class="line"></span><br><span class="line">file_path = <span class="string">&quot;D:/project/backend/test.jpg&quot;</span></span><br><span class="line">file_name = os.path.splitext(os.split(file_path)[<span class="number">1</span>])[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<blockquote>
+<p>2、骚气的获取控制台输出 </p>
+</blockquote>
+<p>有时候我们的代码里可能要调用控制台命令，比如我想用Python写一个批量编译 .java 文件的脚本，用到如下代码</p>
+<p>常规用法 </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">os.system</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os,traceback</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    p = os.system(<span class="string">&quot;javac Test.java&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> p</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&quot;\nexcept:\n&quot;</span></span><br><span class="line">    <span class="built_in">print</span> traceback.format_exc() // <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>如然编译成功会返回一个0，如果错误会返回一个非0的值给p，这种方法可以知道执行结果，但是无法捕获比较重要的提示信息，例如：“错误: 找不到文件: Tst.java”。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">(<span class="number">512</span>, <span class="string">&#x27;\xe9\x94\x99\xe8\xaf\xaf: \xe6\x89\xbe\xe4\xb8\x8d\xe5\x88\xb0\xe6\x96\x87\xe4\xbb\xb6: Tst.java\n\xe7\x94\xa8\xe6\xb3\x95: javac &lt;\xe9\x80\x89\xe9\xa1\xb9&gt; &lt;\xe6\xba\x90\xe6\x96\x87\xe4\xbb\xb6&gt;\n\xe4\xbd\xbf\xe7\x94\xa8 --help \xe5\x8f\xaf\xe5\x88\x97\xe5\x87\xba\xe5\x8f\xaf\xe8\x83\xbd\xe7\x9a\x84\xe9\x80\x89\xe9\xa1\xb9&#x27;</span>)</span><br><span class="line">错误:找不到文件: Tst.java</span><br><span class="line">用法: javac &lt;选项&gt; &lt;源文件&gt;</span><br><span class="line">使用 --<span class="built_in">help</span> 可列出可能的选项</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们用 commands.getstatusoutput 来捕获输出流，（python3 中为subprocess命令）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> commands,traceback</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    res = commands.getstatusoutput(<span class="string">&quot;javac Test.java&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> res</span><br><span class="line">    <span class="built_in">print</span> res[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&quot;\nexcept:\n&quot;</span></span><br><span class="line">    <span class="built_in">print</span> traceback.format_exc()</span><br></pre></td></tr></table></figure>
+
+<p>成功会返回一个tuple，<br>例如：(0, ‘’)，第一个元素表示状态，0代表成功，第二个是输出信息，如果错误则返回下面的结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">(<span class="number">512</span>, <span class="string">&#x27;\xe9\x94\x99\xe8\xaf\xaf: \xe6\x89\xbe\xe4\xb8\x8d\xe5\x88\xb0\xe6\x96\x87\xe4\xbb\xb6: Tst.java\n\xe7\x94\xa8\xe6\xb3\x95: javac &lt;\xe9\x80\x89\xe9\xa1\xb9&gt; &lt;\xe6\xba\x90\xe6\x96\x87\xe4\xbb\xb6&gt;\n\xe4\xbd\xbf\xe7\x94\xa8 --help \xe5\x8f\xaf\xe5\x88\x97\xe5\x87\xba\xe5\x8f\xaf\xe8\x83\xbd\xe7\x9a\x84\xe9\x80\x89\xe9\xa1\xb9&#x27;</span>)</span><br><span class="line">错误: 找不到文件: Tst.java</span><br><span class="line">用法: javac &lt;选项&gt; &lt;源文件&gt;</span><br><span class="line">使用 --<span class="built_in">help</span> 可列出可能的选项</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>3、datetime数据和字符串的转换关系</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 日期时间字符串</span></span><br><span class="line">st = <span class="string">&quot;2017-11-23 16:10:10&quot;</span></span><br><span class="line"><span class="comment"># 当前日期时间</span></span><br><span class="line">dt = datetime.datetime.now()</span><br><span class="line"><span class="comment"># 当前时间戳</span></span><br><span class="line">sp = time.time()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.把datetime转成字符串</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">datetime_toString</span>(<span class="params">dt</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;1.把datetime转成字符串: &quot;</span>, dt.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.把字符串转成datetime</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">string_toDatetime</span>(<span class="params">st</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;2.把字符串转成datetime: &quot;</span>, datetime.datetime.strptime(st, <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.把字符串转成时间戳形式</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">string_toTimestamp</span>(<span class="params">st</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;3.把字符串转成时间戳形式:&quot;</span>, time.mktime(time.strptime(st, <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4.把时间戳转成字符串形式</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">timestamp_toString</span>(<span class="params">sp</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;4.把时间戳转成字符串形式: &quot;</span>, time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, time.localtime(sp)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.把datetime类型转外时间戳形式</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">datetime_toTimestamp</span>(<span class="params">dt</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;5.把datetime类型转外时间戳形式:&quot;</span>, time.mktime(dt.timetuple()))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.把datetime转成字符串</span></span><br><span class="line">datetime_toString(dt)</span><br><span class="line"><span class="comment"># 2.把字符串转成datetime</span></span><br><span class="line">string_toDatetime(st)</span><br><span class="line"><span class="comment"># 3.把字符串转成时间戳形式</span></span><br><span class="line">string_toTimestamp(st)</span><br><span class="line"><span class="comment"># 4.把时间戳转成字符串形式</span></span><br><span class="line">timestamp_toString(sp)</span><br><span class="line"><span class="comment"># 5.把datetime类型转外时间戳形式</span></span><br><span class="line">datetime_toTimestamp(dt)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>工具</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python获取本地ip的方法</title>
+    <url>/2019/11/12/python%E8%8E%B7%E5%8F%96%E6%9C%AC%E5%9C%B0ip%E7%9A%84%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>搭建websocket的需求</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_host_ip</span>():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">        s.connect((<span class="string">&#x27;8.8.8.8&#x27;</span>, <span class="number">80</span>))</span><br><span class="line">        ip = s.getsockname()[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        s.close()</span><br><span class="line">    <span class="keyword">return</span> ip</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>python</category>
+        <category>网络请求</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shootback --一个实用的内网穿透软件</title>
+    <url>/2019/09/07/shootback%20--%E4%B8%80%E4%B8%AA%E5%AE%9E%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E8%BD%AF%E4%BB%B6/</url>
+    <content><![CDATA[<blockquote>
+<p>为实验室服务器准备的外网穿透工具(很方便实用)</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ---- master ----</span></span><br><span class="line">python3 master.py -m <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">10000</span> -c <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">10022</span> --ssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># ---- slaver ----</span></span><br><span class="line"><span class="comment"># ps: the `--ssl` option is for slaver-master encryption, not for SSH</span></span><br><span class="line">python(<span class="keyword">or</span> python3) slaver.py -m dp.wizardj.cn:<span class="number">10000</span> -t <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">22</span> --ssl -q &amp;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>工具</category>
+        <category>python</category>
+        <category>内网穿透</category>
+      </categories>
+      <tags>
+        <tag>NAT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>tensorflow踩坑</title>
+    <url>/2019/09/07/tensorflow%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<p>我的显卡是GT750M，然后环境是学校官网的win10专业版。</p>
+<blockquote>
+<p>坑1: 不同版本python冲突</p>
+</blockquote>
+<p>刚开始使用了python3.7，发现python3,7版本并不能支持tensorflow&lt;&#x3D;1.13.1以前的版本，遂重新安装python3.5，浪费2小时，<br>其坑1.配置好环境后，pip失灵，按照上一篇文章重新配置pip，安装各种依赖的包，又浪费2小时，其坑2.</p>
+<blockquote>
+<p>坑2： GPU算力限制</p>
+</blockquote>
+<span id="more"></span>
+<p>终于不报错了，跑通了，喝口水，惊奇地发现，怎么不动地方，一个epoch跑这么久，一看设备，呵呵，cpu占100%，gpu占用0，这不是开国际玩笑嘛，好好的tensoflow-gpu为啥不用gpu，反而使用了cpu呢？</p>
+<p>遂运行如下命令检查：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.python.client <span class="keyword">import</span> device_lib</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;-&quot;</span>*<span class="number">50</span>)</span><br><span class="line"><span class="built_in">print</span>(device_lib.list_local_devices())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;-&quot;</span>*<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<p>发现我的可用设备里只有一个cpu，而tensorflow1.11.0最小算力要求是3.7,而我的GT750M算力未3.0，遂自动忽略我的显卡，直接用了cpu进行运算，好嘛，我被一个包给鄙视了。</p>
+<p>怎么办呢，果断删除tensorflow 1.11.0，安装tensorflow 1.9.0.这下应该没问题了。</p>
+<blockquote>
+<p>坑3：keras.backend.clear_session</p>
+</blockquote>
+<p>在考虑加载多个模型的情况下，就不得不使用这个命令，使用了就可能会报各种错:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ValueError: Tensor Tensor(<span class="string">&quot;Placeholder:0&quot;</span>, shape=(<span class="number">3</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">32</span>), dtype=float32) <span class="keyword">is</span> <span class="keyword">not</span> an element of this graph.</span><br></pre></td></tr></table></figure>
+<p>诸如此类，然后用了clear_session命令之后就会发现上面那个shape&#x3D;()，注意括号里面是空的。</p>
+<p>这样一来模型就变成了一次性的了：</p>
+<p>也就是load_model()之后马上可以调用predict()方法，但是下次再次需要predict的时候就又要重新load_model，可怕吧？</p>
+<p><strong>关键点</strong>在于：</p>
+<ul>
+<li>clear_session()必须在graph初始化之前执行。很显然嘛，你刚刚执行完初始化，随手就把graph清了，就跟没初始化一样。<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">graph=tf.Graph().as_default()</span><br><span class="line">K.clear_session()</span><br></pre></td></tr></table></figure></li>
+<li>每一个model要有自己的graph，都使用默认的graph就会出现混乱。因为keras的设定就是，工作中的默认graph只有一个，所以就有了<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> graph.as_default():</span><br><span class="line">    blablabla()...</span><br></pre></td></tr></table></figure>
+这种写法，他的意思就是把graph加载到当前上下文的意思。<br>于是，为了保证正确性就这样写：<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">K.clear_session()</span><br><span class="line">graph = tf.Graph()</span><br><span class="line"><span class="keyword">with</span> graph.as_default():</span><br><span class="line">   sess = tf.Session(graph=graph) <span class="comment">#把识别需要的数据放在自己创建的Graph和Session中，避免使用默认Graph,造成数据错误</span></span><br><span class="line">   <span class="keyword">with</span> sess.as_default():</span><br><span class="line">       model = YOLO(**<span class="built_in">vars</span>(Args(model_path,classes_path)))</span><br><span class="line">       <span class="built_in">print</span>(<span class="string">&quot;model loaded\n&quot;</span>,<span class="string">&quot;-&quot;</span>*<span class="number">100</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法</category>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>TensorFlow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>tfv1 和 tfv2api冲突</title>
+    <url>/2019/10/29/tfv1%20%E5%92%8C%20tfv2api%E5%86%B2%E7%AA%81/</url>
+    <content><![CDATA[<p>在<code>tf2</code>下使用<code>tf1</code>的api会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AttributeError: module &#x27;tensorflow&#x27; has no attribute &#x27;name_scope&#x27;</span><br></pre></td></tr></table></figure>
+<p>还有诸如<code>placeholder</code>的错误，为了避免错误，要这样写</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow.compat.v1 <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">tf.disable_v2_behavior()</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>TensorFlow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>uwsgi 最简单配置方法</title>
+    <url>/2019/09/07/uwsgi%20%E6%9C%80%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h4 id="安装uwsgi"><a href="#安装uwsgi" class="headerlink" title="安装uwsgi:"></a>安装<code>uwsgi</code>:</h4><p><code>uwsgi pip install uwsgi</code></p>
+<h4 id="查看uwsgi版本-96"><a href="#查看uwsgi版本-96" class="headerlink" title="查看uwsgi版本&#96;"></a>查看uwsgi版本&#96;</h4><p><code>uwsgi --version</code></p>
+<hr>
+<p>第一个小测试:</p>
+<ul>
+<li>创建  <code>frist.py</code> 内容：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">application</span>(<span class="params">env, start_response</span>):</span><br><span class="line">    start_response(<span class="string">&#x27;200 OK&#x27;</span>, [(<span class="string">&#x27;Content-Type&#x27;</span>,<span class="string">&#x27;text/html&#x27;</span>)])</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">b&quot;Hello World&quot;</span>]</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>命令：<br><code>uwsgi --http :8001 --wsgi-file frist.py</code><br>浏览器访问<br><code>127.0.0.1:8001</code><br>看浏览器是否有  “Hello World”   显示则成功</p>
+<hr>
+<h4 id="项目下配置uwsgi"><a href="#项目下配置uwsgi" class="headerlink" title="项目下配置uwsgi:"></a>项目下配置<code>uwsgi</code>:</h4><p>创建<code>django</code>项目之后，在项目根目录下创建<code>uwsgi.ini</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line"><span class="comment"># Django-related settings</span></span><br><span class="line">socket=<span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">8000</span>      这个和uwsgi_pass 里面的端口号一致</span><br><span class="line">chdir=/home/fang_yz/lanlanTestEnd1_zml    指定运行目录（改成自己的目录，这是我的）</span><br><span class="line">wsgi-file=lanlanTest6/wsgi.py   载入wsgi-file（load .wsgi file）</span><br><span class="line">master=true  主进程</span><br><span class="line">processe=<span class="number">4</span>   开启的进程数量</span><br><span class="line">daemonize=uwsgi_log.log  /pid文件，用于下面的脚本启动、停止该进程</span><br><span class="line">pidfile=uwsgi_pid.log     日志文件</span><br></pre></td></tr></table></figure>
+
+<h4 id="关键配置1："><a href="#关键配置1：" class="headerlink" title="关键配置1："></a>关键配置1：</h4><p>socket&#x3D;0.0.0.0:8000 在配置nginx+uwsgi+django 时候 这个8000要和nginx.conf 里面的<br>location &#x2F; {<br>include uwsgi_params;<br>uwsgi_pass 127.0.0.1:8000; 这个端口号 一致<br>}<br>一定不要和 listen 8080 default_server; 搞混<br>listen 这个端口是外部浏览器访问nginx的端口<br>uwsgi_pass这个端口是nginx访问uwsgi的端口<br>然后uwsgi才能根据我们配置uwsgi.ini文件 访问我们的项目</p>
+<p>配置完init文件之后</p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p><code>uwsgi --ini uwsgi.ini</code> 启动之后会在目录下生成 <code>uwsgi.pid</code> 和 <code>uwsgi.log</code>文件</p>
+<h4 id="查看进程"><a href="#查看进程" class="headerlink" title="查看进程"></a>查看进程</h4><p><code>cat uwsgi.pid 或 ps -ef | grep uwsgi</code></p>
+<h4 id="重启进程"><a href="#重启进程" class="headerlink" title="重启进程"></a>重启进程</h4><p><code>uwsgi --reload uwsgi.pid</code></p>
+<h4 id="查看uwsgi进程及详细信息"><a href="#查看uwsgi进程及详细信息" class="headerlink" title="查看uwsgi进程及详细信息"></a>查看uwsgi进程及详细信息</h4><p><code>uwsgi --connect-and-read uwsgi.status</code></p>
+<h4 id="停止uwsgi进程"><a href="#停止uwsgi进程" class="headerlink" title="停止uwsgi进程"></a>停止uwsgi进程</h4><p><code>uwsgi --stop uwsgi.pid 或者直接 kill -9 uwsgi进程 杀死</code><br>————————————————<br>版权声明：本文为CSDN博主「行走在风中」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/qq_36874480/article/details/94012423">https://blog.csdn.net/qq_36874480/article/details/94012423</a></p>
+]]></content>
+      <categories>
+        <category>服务器</category>
+        <category>uwsgi</category>
+      </categories>
+      <tags>
+        <tag>uWSGI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>xhr封装</title>
+    <url>/2019/09/07/xhr%E5%B0%81%E8%A3%85/</url>
+    <content><![CDATA[<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// POST</span></span><br><span class="line"><span class="keyword">var</span> xhr;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">XMLHttpRequest</span>) &#123; </span><br><span class="line">    <span class="comment">// Mozilla, Safari...</span></span><br><span class="line">  xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">ActiveXObject</span>) &#123; </span><br><span class="line">    <span class="comment">// IE</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    xhr = <span class="keyword">new</span> <span class="title class_">ActiveXObject</span>(<span class="string">&#x27;Msxml2.XMLHTTP&#x27;</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;    <span class="keyword">try</span> &#123;</span><br><span class="line">      xhr = <span class="keyword">new</span> <span class="title class_">ActiveXObject</span>(<span class="string">&#x27;Microsoft.XMLHTTP&#x27;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line"><span class="keyword">if</span> (xhr) &#123;</span><br><span class="line">  xhr.<span class="property">onreadystatechange</span> = onReadyStateChange;</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;/api&#x27;</span>, <span class="literal">true</span>);  <span class="comment">// 设置 Content-Type 为 application/x-www-form-urlencoded</span></span><br><span class="line">  <span class="comment">// 以表单的形式传递数据</span></span><br><span class="line">  xhr.<span class="title function_">setRequestHeader</span>(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>);</span><br><span class="line">  xhr.<span class="title function_">send</span>(<span class="string">&#x27;username=admin&amp;password=root&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// onreadystatechange 方法</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onReadyStateChange</span>(<span class="params"></span>) &#123;  </span><br><span class="line">    <span class="comment">// 该函数会被调用四次</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(xhr.<span class="property">readyState</span>);  </span><br><span class="line">    <span class="keyword">if</span> (xhr.<span class="property">readyState</span> === <span class="number">4</span>) &#123;    </span><br><span class="line">        <span class="comment">// everything is good, the response is received</span></span><br><span class="line">        <span class="keyword">if</span> (xhr.<span class="property">status</span> === <span class="number">200</span>) &#123;     </span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(xhr.<span class="property">responseText</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;      </span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;There was a problem with the request.&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;    </span><br><span class="line">    <span class="comment">// still not ready</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;still not ready...&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>额，兼容浏览器的写法。多少留一份，万一忘了，对吧。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+        <category>网络请求</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>三步使用装饰器添加redux状态管理</title>
+    <url>/2019/09/07/%E4%B8%89%E6%AD%A5%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8%E6%B7%BB%E5%8A%A0redux%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<blockquote>
+<p>1.在最外边index组件用Provider将所有组件包裹起来，并提供全局唯一的store</p>
+</blockquote>
+<span id="more"></span>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ReactDOM</span> <span class="keyword">from</span> <span class="string">&#x27;react-dom&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./index.css&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">&quot;redux&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Provider</span> &#125; <span class="keyword">from</span> <span class="string">&quot;react-redux&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;reducer&#125; <span class="keyword">from</span> <span class="string">&quot;./redux/redux&quot;</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(</span><br><span class="line">    reducer,</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">devToolsExtension</span>?<span class="variable language_">window</span>.<span class="title function_">devToolsExtension</span>():<span class="literal">undefined</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">Provider</span> <span class="attr">store</span>=<span class="string">&#123;store&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">App</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">Provider</span>&gt;</span></span></span><br><span class="line">    , </span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>2.reducer本身需要提供的两个方法，reducer和返回各种json对象的actions函数</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// actions</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">setState</span>(<span class="params">data</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">type</span>:<span class="string">&quot;SET_STATE&quot;</span>,</span><br><span class="line">        data</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// reducers</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">reducer</span> = (<span class="params">state = &#123;</span></span><br><span class="line"><span class="params">    path:<span class="string">&quot;/dataset&quot;</span>,</span></span><br><span class="line"><span class="params">    columns:[],</span></span><br><span class="line"><span class="params">    data:[]</span></span><br><span class="line"><span class="params">&#125;, action</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> data = action.<span class="property">data</span>;</span><br><span class="line">    <span class="keyword">switch</span> (action.<span class="property">type</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;SET_STATE&#x27;</span>:</span><br><span class="line">            state.<span class="property">path</span> = data.<span class="property">path</span></span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(data)</span><br><span class="line">            <span class="keyword">return</span> state</span><br><span class="line">        <span class="attr">default</span>:</span><br><span class="line">            <span class="keyword">return</span> state</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>3.在需要使用redux的组件中这样写</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * layout 侧边栏菜单</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">@<span class="title function_">connect</span>(</span><br><span class="line">    <span class="function"><span class="params">state</span> =&gt;</span> (&#123;<span class="attr">reduxStore</span>:state&#125;),&#123;setState&#125;</span><br><span class="line">)</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">index</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;</span><br><span class="line">    state = &#123;</span><br><span class="line">        <span class="attr">collapsed</span>: <span class="literal">false</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    onCollapse = <span class="function"><span class="params">collapsed</span> =&gt;</span> &#123;</span><br></pre></td></tr></table></figure>
+<p>然后调用this.props.reduxStore就可以使用保存在redux中的各种state了，调用action的话，直接调用this.props.action就可以了。</p>
+<blockquote>
+<p>4.需要注意的地方</p>
+</blockquote>
+<ul>
+<li><p>在reducer方法中一定要返回state,不然无法取到action设置的state</p>
+</li>
+<li><p>使用装饰器@connect的话就无法导出export default 组件名，只能在组件末尾导出export default 组件名，所以组件必须有一个临时的名字。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于create-react-app无法使用es7修饰器的问题</title>
+    <url>/2019/09/07/%E5%85%B3%E4%BA%8Ecreate-react-app%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8es7%E4%BF%AE%E9%A5%B0%E5%99%A8%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<blockquote>
+<p>方式一：暴露 create-react-app 的配置</p>
+</blockquote>
+<p>暴露出<code>create-react-app</code> 的所有配置</p>
+<ul>
+<li>运行命令：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm run eject</span><br></pre></td></tr></table></figure>
+项目中就会展示出各种配置文件。</li>
+<li>在 babel 中添加 plugins 配置</li>
+<li>在 package.json 文件中找到 babel 的配置，添加如下代码即可：<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;babel&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;presets&quot;</span>: [<span class="string">&quot;react-app&quot;</span>],</span><br><span class="line">    <span class="string">&quot;plugins&quot;</span>: [</span><br><span class="line">      [<span class="string">&quot;@babel/plugin-proposal-decorators&quot;</span>,&#123;<span class="string">&quot;legacy&quot;</span>: <span class="literal">true</span>&#125;]</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+重新运行项目，即可正常使用装饰器语法。</li>
+</ul>
+<p><code>create-react-app</code> 脚手架中已经安装了 <code>@babel/plugin-proposal-decorators </code>插件 ，不需要自己安装。</p>
+<blockquote>
+<p>方式二：直接在项目的 node-modules 中添加配置</p>
+</blockquote>
+<p>打开项目的 node_modules 文件夹，找到 babel-preset-react-app 目录。打开目录下 create.js 文件。找到 plugins 属性配置的地方，修改如下配置即可：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">isTypeScriptEnabled &amp;&amp; [</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;@babel/plugin-proposal-decorators&#x27;</span>).<span class="property">default</span>,</span><br><span class="line">    <span class="literal">false</span>,</span><br><span class="line">],</span><br><span class="line"></span><br><span class="line">[</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;@babel/plugin-proposal-decorators&#x27;</span>).<span class="property">default</span>,</span><br><span class="line">    &#123; <span class="attr">legacy</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<p>不建议使用方式二，因为一旦需要重新安装 node_modules， 就需要再去 babel-preset-react-app 里面添加一次配置。</p>
+<p>至此已经可以正常使用各种装饰器了，比如redux中的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@connect(</span><br><span class="line">    state =&gt; (&#123;reduxStore:state&#125;),&#123;setState&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>这种“注解”已经可以跑通了，只是，vscode可能会报错，原因是vscode自身不支持这种写法，只需要在项目根目录添加一个文件名叫<code>jsconfig.json</code>的文件，并在其中添加这句话，并重启vscode就会消除报错提示了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;experimentalDecorators&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于图片文件的base64编码和后台接收转码</title>
+    <url>/2019/09/07/%E5%85%B3%E4%BA%8E%E5%9B%BE%E7%89%87%E6%96%87%E4%BB%B6%E7%9A%84base64%E7%BC%96%E7%A0%81%E5%92%8C%E5%90%8E%E5%8F%B0%E6%8E%A5%E6%94%B6%E8%BD%AC%E7%A0%81/</url>
+    <content><![CDATA[<hr>
+
+<blockquote>
+<p>时间: 2019&#x2F;7&#x2F;1:</p>
+</blockquote>
+<p>以前只知道base64，并没有实际使用它来传输图片字符串到后台，我在周末的时候用浏览器将图片转码post到后台发现竟然识别不出；</p>
+<p>今天早上我一抖机灵，干脆把后台接收到的文件保存下来与我前端传过去的比一下就好了嘛。</p>
+<p>一比较，发现：果然显示“图片已经损坏”。</p>
+<p>原来前端封装base64之后会有如下格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">imag/png:base64,```一大堆64位码```base64blablabal==</span><br></pre></td></tr></table></figure>
+<p>而真正需要转码保存下来的文件只是逗号后面的一堆base64码而已，错误的将前面的格式声明“image&#x2F;png:base64,”也转码称二进制会导致图片损坏不能识别。</p>
+<p>附我在前台转码的方式：</p>
+<span id="more"></span>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> box = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;box&quot;</span>);</span><br><span class="line">        box.<span class="property">ondragOver</span> = <span class="title function_">fucntion</span>(<span class="params">e</span>)&#123;</span><br><span class="line">            e.<span class="title function_">preventDefault</span>();</span><br><span class="line">            e.<span class="title function_">stopPropgation</span>();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 第一种读取方式</span></span><br><span class="line">        box.<span class="property">ondrop</span> = <span class="title function_">fucntion</span>(<span class="params">e</span>)&#123;</span><br><span class="line">            e.<span class="title function_">preventDefault</span>();</span><br><span class="line">            e.<span class="title function_">stopPropgation</span>();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> file = e.<span class="property">dataTransfer</span>.<span class="property">files</span>[<span class="number">0</span>];<span class="comment">// 获取到文件</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> img = <span class="keyword">new</span> <span class="title class_">Image</span>();</span><br><span class="line"></span><br><span class="line">            img.<span class="property">src</span> = <span class="variable language_">window</span>.<span class="property">URL</span>.<span class="title function_">createURL</span>(<span class="keyword">new</span> <span class="title class_">Blob</span>(file)) <span class="comment">// 这就是url</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 第二种方式</span></span><br><span class="line">        box.<span class="property">ondrop</span> = <span class="title function_">fucntion</span>(<span class="params">e</span>)&#123;</span><br><span class="line">            e.<span class="title function_">preventDefault</span>();</span><br><span class="line">            e.<span class="title function_">stopPropgation</span>();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> file = e.<span class="property">dataTransfer</span>.<span class="property">files</span>[<span class="number">0</span>];<span class="comment">// 获取到文件</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> reader = <span class="keyword">new</span> <span class="title class_">FileReader</span>();</span><br><span class="line"></span><br><span class="line">            reader.<span class="title function_">readAsURL</span>(file);</span><br><span class="line"></span><br><span class="line">            reader.<span class="property">onload</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">const</span> url = <span class="variable language_">this</span>.<span class="property">result</span>; <span class="comment">// reader.result就是base64的转码</span></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>利用axios上传文件的前后台写法</title>
+    <url>/2019/09/07/%E5%88%A9%E7%94%A8axios%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E5%89%8D%E5%90%8E%E5%8F%B0%E5%86%99%E6%B3%95/</url>
+    <content><![CDATA[<p>额，经过试验，不用设置请求头’Content-type’之类的那么麻烦，直接创建表单对象就可以了，附代码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">beforeUploadHandler = <span class="function">(<span class="params">file,e</span>)=&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(file)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">const</span> data = <span class="keyword">new</span> <span class="title class_">FormData</span>();</span><br><span class="line">        data.<span class="title function_">append</span>(<span class="string">&quot;file&quot;</span>,file);</span><br><span class="line"></span><br><span class="line">        <span class="title class_">Axios</span>.<span class="title function_">post</span>(<span class="string">&quot;upload/dataset/&quot;</span>,data)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function"><span class="params">response</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(response)</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(error);</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// 屏蔽掉antd的自动上传功能，因为我们不需要，我们是要对图片进行转码</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>然后后台写法是这样的：</p>
+<span id="more"></span>
+<h1 id="数据集上传功能"><a href="#数据集上传功能" class="headerlink" title="数据集上传功能"></a>数据集上传功能</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">def <span class="title function_">uploadFile</span>(request):</span><br><span class="line">    <span class="keyword">if</span> request.<span class="property">method</span> == <span class="string">&#x27;POST&#x27;</span>: # 请求方法是<span class="variable constant_">POST</span>时，进行处理</span><br><span class="line">        myfile = request.<span class="property">FILES</span>.<span class="title function_">get</span>(<span class="string">&#x27;file&#x27;</span>,<span class="title class_">None</span>) # 获取上传的文件，如果没有，就默认是<span class="title class_">None</span></span><br><span class="line">        <span class="title function_">print</span>(request.<span class="property">FILES</span>)</span><br><span class="line">        <span class="keyword">if</span> not <span class="attr">myfile</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="title class_">HttpResponse</span>(<span class="string">&quot;no files for upload!&quot;</span>)</span><br><span class="line">        destination = <span class="title function_">open</span>(os.<span class="property">path</span>.<span class="title function_">join</span>(<span class="string">&quot;/home/qzh/keras-yolo3-master/DjangoApi/dataSet&quot;</span>,myfile.<span class="property">name</span>),<span class="string">&#x27;wb+&#x27;</span>) # 二进制读写</span><br><span class="line">        <span class="keyword">for</span> chunk <span class="keyword">in</span> myfile.<span class="title function_">chunks</span>(): # 分块写入</span><br><span class="line">            destination.<span class="title function_">write</span>(chunk)</span><br><span class="line">        destination.<span class="title function_">close</span>()</span><br><span class="line">        <span class="keyword">return</span> <span class="title class_">HttpResponse</span>(<span class="string">&quot;upload over!&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>如果文件太大，就要检测上传进度，上传进度的检测方法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">beforeUploadHandler = <span class="function">(<span class="params">file,e</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> data = <span class="keyword">new</span> <span class="title class_">FormData</span>();</span><br><span class="line">        data.<span class="title function_">append</span>(<span class="string">&quot;file&quot;</span>,file);</span><br><span class="line">        <span class="keyword">const</span> _this = <span class="variable language_">this</span>;</span><br><span class="line"></span><br><span class="line">        <span class="title class_">Axios</span>(&#123;</span><br><span class="line">            <span class="attr">url</span>:<span class="string">&quot;upload/dataset/&quot;</span>,</span><br><span class="line">            <span class="attr">method</span>:<span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">            <span class="attr">data</span>:data,</span><br><span class="line">            <span class="attr">onUploadProgress</span>:<span class="keyword">function</span>(<span class="params">processEvent</span>)&#123;</span><br><span class="line">                <span class="comment">// 原生获取上传进度的事件</span></span><br><span class="line">                <span class="keyword">if</span>(processEvent.<span class="property">lengthComputable</span>)&#123;</span><br><span class="line">                    <span class="comment">// lengthCompoutable 主要表明总共需要完成的工作量和已经完成的工作是否可以被测量</span></span><br><span class="line">                    <span class="comment">// 如果lengthComputable为false,就获取不到progressEvent.total和progressEvent.loaded</span></span><br><span class="line">                    <span class="keyword">let</span> progress = (processEvent.<span class="property">loaded</span> / processEvent.<span class="property">total</span>*<span class="number">100</span>).<span class="title function_">toFixed</span>(<span class="number">2</span>)*<span class="number">1</span>;</span><br><span class="line">                    _this.<span class="title function_">setState</span>(&#123;</span><br><span class="line">                        <span class="attr">progress</span>:progress</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function"><span class="params">response</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(response)</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(error);</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// 屏蔽掉antd的自动上传功能，因为我们不需要，我们是要对图片进行转码</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+        <category>网络请求</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>博客架构分析和重组方案</title>
+    <url>/2019/09/07/%E5%8D%9A%E5%AE%A2%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90%E5%92%8C%E9%87%8D%E7%BB%84%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<blockquote>
+<p>2019&#x2F;06&#x2F;01</p>
+</blockquote>
+<p>这个礼拜老师出差，我重写了web端的整个代码。感觉bug干净了，很清爽，接下来把admin端的代码搞定。</p>
+<blockquote>
+<p>2019&#x2F;05&#x2F;27</p>
+</blockquote>
+<pre><code>昨天是今年毕业生的谢师宴，酒席之前我喉咙有点痛，酒席过后果然成功感了冒。
+</code></pre>
+<p>从鲍师弟的口中得知小米的新项目大多是React+JAVA后台，我忽然觉得自己找到了方向。[污]</p>
+<p>好吧，那么koa2不学。。。。还是不行的，我反正要用JAVA后台了，老本行，我更加熟悉的语言，哈哈哈。</p>
+<p>接下来做接口的分析。</p>
+<span id="more"></span>
+
+<blockquote>
+<p>2019&#x2F;05&#x2F;26</p>
+</blockquote>
+<p>现在时间是2019&#x2F;05&#x2F;26 16:00，上个礼拜，我在github上找到这个博客源码并部署在我的nginx服务器上。</p>
+<p>这个项目显然已经经过很多次改造了，但我仔细阅读之后觉得代码风格并不太符合我自己，我是一个有bug洁癖的人，还是想改造一下这个项目。根据数据库中的内容发现，项目上一个改造的主人是一个名叫李建光的前端大佬、火影迷、炫女友狂魔，嗯，大致上是这样一个人设。</p>
+<p>github上下载下来代码有问题，改了好久还是有很多bug，甚至到现在头像也显示不出来。一度想推掉重新写，最终由于懒而放弃。。。</p>
+<p>我自己也拖了很久了，在今天我忽然下定决心要整改下项目，持续更新这篇文章，这篇文章写完之日，就是我项目全部整理结束之时但愿9月份前能搞定。</p>
+<p>进入正题…</p>
+<p>这个项目被划分成了三个部分：web、server、admin，分别用来做博客的前端站，服务器，后台内容管理站，都部署在同一个nginx服务器上实现通信。</p>
+<p>web项目负责了前台展示，admin负责了内容管理，都是React框架，然后server用了koa2框架，负责了响应请求和处理数据，然后web和admin用axios请求server端的接口，server再读取数据库中的内容。</p>
+<p>目前一个改造设想是web和admin不动，还是挂在nginx上，server换成JAVA后台，就可以用Spring Boot和很多其他框架。这样显然更专业。对这个系统更有好处。</p>
+<p>第二个设想是彻底地走前端技术路线，调整server的接口。这样在九月份前我还能再熟悉下node和koa2。</p>
+<p>github上下载下来的项目有很多bug，很多文件还有缺失，我自己补充了一部分缺失的文件，但还是有很多bug，通过改这些bug，学会了很多新的知识，了解到了新的技术栈，是我短期内的前进方向。然后，不知道是服务器问题还是代码问题，我觉得web前台和内容管理系统的响应还是有点慢，然后就是对这个编辑器有点不太满意。</p>
+<p>独立做项目是蛮坑爹的，先写个文档把思路缕一缕：</p>
+<ul>
+<li><p>1、首先先把能看到的bug都改一改，我觉得问题应该不大。</p>
+</li>
+<li><p>2、server的变化就要从长计议了，不得不说，这个项目确实想法好，前后分离，然后逻辑还算清晰，维护起来有点难受，但还说的过去。</p>
+</li>
+</ul>
+<p>额，喉咙忽然有点不舒服，我预备晚点回来再写。。。</p>
+]]></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>摸鱼</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>封装websocket的实用工具包</title>
+    <url>/2019/11/12/%E5%B0%81%E8%A3%85websocket%E7%9A%84%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7%E5%8C%85/</url>
+    <content><![CDATA[<p>想手动封装websocket其实很容易出错的，把代码抄下来，需要的时候cv。</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> websockets</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取ip</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_host_ip</span>():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">        s.connect((<span class="string">&#x27;8.8.8.8&#x27;</span>, <span class="number">80</span>))</span><br><span class="line">        ip = s.getsockname()[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        s.close()</span><br><span class="line">    <span class="keyword">return</span> ip</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">WS_pipe</span>(threading.Thread):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,port, model_instance, serviceId</span>):</span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.port = port</span><br><span class="line">        self.loop = <span class="literal">None</span></span><br><span class="line">        self.model_instance = model_instance</span><br><span class="line">        self.serviceId = serviceId</span><br><span class="line">        self.host = get_host_ip()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">dojob</span>(<span class="params">self,websocket, port</span>): <span class="comment"># 业务方法</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            message = <span class="keyword">await</span> websocket.recv()</span><br><span class="line">            <span class="keyword">if</span> message == <span class="string">&quot;end&quot;</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">            <span class="built_in">print</span>(message) <span class="comment"># 在这里可以对message进行处理</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">await</span> websocket.send(res)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        loop = asyncio.new_event_loop() <span class="comment"># 创建事件循环</span></span><br><span class="line">        self.loop = loop</span><br><span class="line">        asyncio.set_event_loop(loop)</span><br><span class="line">        start_server = websockets.serve(self.predict_img, self.host, self.port)</span><br><span class="line">        asyncio.get_event_loop().run_until_complete(start_server)</span><br><span class="line">        asyncio.get_event_loop().run_forever()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">close_pipe</span>(<span class="params">self</span>): <span class="comment"># 封装一个关闭方法</span></span><br><span class="line">        self.loop.stop()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;closed!&quot;</span>) </span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>工具</category>
+        <category>python</category>
+        <category>网络请求</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>小张即将结束秋招之旅</title>
+    <url>/2019/10/26/%E5%B0%8F%E5%BC%A0%E5%8D%B3%E5%B0%86%E7%BB%93%E6%9D%9F%E7%A7%8B%E6%8B%9B%E4%B9%8B%E6%97%85/</url>
+    <content><![CDATA[<h2 id="小张即将结束秋招之旅"><a href="#小张即将结束秋招之旅" class="headerlink" title="小张即将结束秋招之旅"></a>小张即将结束秋招之旅</h2><blockquote>
+<p>2019&#x2F;10&#x2F;26</p>
+</blockquote>
+<p>昨天小张拒绝了<code>xm</code> offer，接受了<code>xc</code>，心情很惆怅，于是开始思考人生。<br>人一生会有许多中可能，每一次关键的选择都会改变命运。我上一次有这种想法的时候我很坚决，现在的我看来曾经的我在上一个决策点作出的决定是正确的。<br>我忧虑我的未来，忧虑不久后的我自己是否会认同现在我在这一个决策点作出的决定。</p>
+]]></content>
+      <categories>
+        <category>摸鱼</category>
+      </categories>
+      <tags>
+        <tag>摸鱼</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>小张由开始了春招之旅</title>
+    <url>/2023/03/02/%E5%B0%8F%E5%BC%A0%E5%8F%88%E5%BC%80%E5%A7%8B%E5%8F%82%E5%8A%A0%E6%98%A5%E6%8B%9B/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/Wizard-J/imgs@main/%E7%A6%BB%E8%81%8C%E9%82%AE%E4%BB%B6.webp" alt="离职邮件"></p>
+<span id="more"></span>
+<p><img src="https://cdn.jsdelivr.net/gh/Wizard-J/imgs@main/202332%E5%A4%9C.webp" alt="202332夜"></p>
+<blockquote>
+<p>2023-03-02 深夜</p>
+</blockquote>
+<p>还记得在  <code>2019/10/26</code> 那是我决定去XC的第一天，我的心中踌躇满志。</p>
+<p>今天是我在XC的最后两天，我沐浴月光，整理以前的文档，偶然看到这篇文章《<a href="https://blog.wizardj.cn/2019/10/26/%E5%B0%8F%E5%BC%A0%E5%8D%B3%E5%B0%86%E7%BB%93%E6%9D%9F%E7%A7%8B%E6%8B%9B%E4%B9%8B%E6%97%85/">小张即将结束秋招之旅</a>》，心中五味杂陈。</p>
+<p>我已经不是曾经的我，世界也已经不是曾经的世界了。</p>
+<p>这些年，经历了疫情的洗礼，一切都再也回不去了。</p>
+<p>留给我的除了这篇文档，只剩下前后截然不同的处境，和一片未卜的前途。</p>
+<p>成年人总要有那么几次为自己的行为负责，这把离职的冲动;</p>
+<p>我，别无选择，必须成功！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Wizard-J/imgs@main/%E7%A6%BB%E8%81%8C%E5%89%8D%E5%A4%95.webp" alt="离职前夕"></p>
+]]></content>
+      <categories>
+        <category>摸鱼</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开启gzip打包</title>
+    <url>/2019/10/05/%E5%BC%80%E5%90%AFgzip%E6%89%93%E5%8C%85/</url>
+    <content><![CDATA[<p>react打包后的js.chunk有2.2M，每次加载需要30+s，这样时间太久了，为了优化加载速度，我开启了gzip。</p>
+<ul>
+<li>前端配置</li>
+<li>后端配置</li>
+</ul>
+<blockquote>
+<p>前端webpack配置</p>
+</blockquote>
+<p>先要用<code>npm</code>安装一个包:<code>npm install --save-dev compression-webpack-plugin</code><br>根据webpack官方文档，在webpack.config.js中加入:</p>
+<span id="more"></span>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">CompressionPlugin</span> = <span class="built_in">require</span>(<span class="string">&quot;compression-webpack-plugin&quot;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span> (<span class="params">webpackEnv</span>) &#123;</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">      <span class="comment">// gzip</span></span><br><span class="line">      isEnvProduction &amp;&amp; <span class="keyword">new</span> <span class="title class_">CompressionPlugin</span>(&#123;</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;[path].gz[query]&#x27;</span>,</span><br><span class="line">        <span class="attr">algorithm</span>: <span class="string">&#x27;gzip&#x27;</span>,</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$|\.css$|\.html$/</span>,</span><br><span class="line">        <span class="attr">threshold</span>: <span class="number">10240</span>,</span><br><span class="line">        <span class="attr">minRatio</span>: <span class="number">0.8</span></span><br><span class="line">      &#125;),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>nginx开启后端支持</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">     listen <span class="number">80</span>;</span><br><span class="line">     server_name soccer.wizardj.cn;</span><br><span class="line">     root /root/project/SoccerGames/frontend/build;</span><br><span class="line"></span><br><span class="line">     index index.html;</span><br><span class="line">     gzip on;</span><br><span class="line">     gzip_buffers <span class="number">32</span> 4k;</span><br><span class="line">     gzip_comp_level <span class="number">9</span>;</span><br><span class="line">     gzip_min_length <span class="number">200</span>;</span><br><span class="line">     gzip_types text/css text/xml application/javascript;</span><br><span class="line">     gzip_vary on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后<code>nginx -t</code>,<code>nginx -s reload</code>，就发现加载的js大小从原来的2.2M变为了600K，加载时间从原来的30+s变成了4s。</p>
+]]></content>
+      <categories>
+        <category>服务器</category>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>总结一些比较有趣的js代码</title>
+    <url>/2019/09/07/%E6%80%BB%E7%BB%93%E4%B8%80%E4%BA%9B%E6%AF%94%E8%BE%83%E6%9C%89%E8%B6%A3%E7%9A%84js%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<blockquote>
+<p>1.使用apply实现拼接</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> arr=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">var</span> temp=[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">arr.<span class="property">push</span>.<span class="title function_">apply</span>(arr,temp)</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<blockquote>
+<p>2.set数组去重</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">[...<span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>])]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>3.求最大项</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Math</span>.<span class="title function_">max</span>(...[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>4.位运算符判断indexOf是否等于-1</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(!~arr.<span class="title function_">indexOf</span>(item))&#123;</span><br><span class="line"> 如果ite不存在于数组，就...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>5.前端错误记录到后端</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">logError</span>(<span class="params">sev, msg</span>)&#123;</span><br><span class="line">        <span class="keyword">var</span> img = <span class="keyword">new</span> <span class="title class_">Image</span>();</span><br><span class="line">        img.<span class="property">src</span> = <span class="string">&quot;log.php?sev=&quot;</span> + <span class="built_in">encodeURIComponent</span>(sev) + <span class="string">&quot;&amp;msg=&quot;</span> +</span><br><span class="line">                  <span class="built_in">encodeURIComponent</span>(msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>扫雷，x/offsetX/clientX/pageX、clientWidth/offsetWidth/scrollWidth如何区分记忆</title>
+    <url>/2019/09/07/%E6%89%AB%E9%9B%B7%EF%BC%8CxoffsetXclientXpageX%E3%80%81clientWidthoffsetWidthscrollWidth%E5%A6%82%E4%BD%95%E5%8C%BA%E5%88%86%E8%AE%B0%E5%BF%86/</url>
+    <content><![CDATA[<p>经常被这几个问题搞的晕头转向，趁现在记忆深刻记下来。</p>
+<blockquote>
+<p>clientX,clientY</p>
+</blockquote>
+<p>表示距离视口<code>viewPort</code>边缘的距离。</p>
+<blockquote>
+<p>offsetX,offsetY</p>
+</blockquote>
+<p>表示距离<code>父盒子</code>边缘的距离。</p>
+<blockquote>
+<p>pageX,pageY</p>
+</blockquote>
+<p>表示距离整个<code>body</code>边缘的距离，其中也包括不在视口范围内的部分（如果有的话）。</p>
+<span id="more"></span>
+<blockquote>
+<p>x&#x2F;screenX,y&#x2F;screenY</p>
+</blockquote>
+<p>表示目标距离<code>显示器</code>的边缘距离，这个比较神奇，往往浏览器相对于显示器的视口的不见得总是重合的吧，对吧。</p>
+<p><em><strong>一张盗来的图说明问题</strong></em>：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/8/18/16ca3f5167aa8bfa?w=1000&h=678&f=png&s=69804"></p>
+<hr>
+
+<blockquote>
+<p>offsetWidth</p>
+</blockquote>
+<p>四个属性中这个是最大的，除了元素的外边距<code>margin</code>以外的全部部分，包括了元素的 <strong>宽度</strong>、<strong>内边距</strong>、<strong>边框</strong>。</p>
+<blockquote>
+<p>clientWidth</p>
+</blockquote>
+<p>除了 <strong>外边距</strong> 和 <strong>边框</strong> 的部分，包括了 <strong>宽度</strong>、<strong>内边距</strong>。</p>
+<blockquote>
+<p>scrollWidth</p>
+</blockquote>
+<p>这个比较特殊，它在clientWidt基础上包括了 <strong>溢出视口宽度</strong> 的部分，的包括了 <strong>宽度</strong>、<strong>内边距</strong>、<strong>视口外的宽度</strong>。</p>
+<blockquote>
+<p>width</p>
+</blockquote>
+<p>这个是最小的，它仅仅包括了元素的 <strong>宽度</strong>，并且它是内联属性。</p>
+<p><em><strong>总结</strong></em></p>
+<p>正常情况下：</p>
+<ul>
+<li>width &lt; clientWidth &#x3D; scrollWidth &lt; offsetWidth</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">显然，如果有溢出部分的化，scrollWidth也可能是最大的。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>style.width是指<code>Html</code>内联属性，并不是在stylesheet中设置的那一个。</li>
+<li>style.width返回的是<code>String</code>，比如说<code>700px</code>，其他三个返回的是<code>Number</code>,比如<code>700</code></li>
+<li>style.width和scrollWidth可读写，而offsetWidth和clientWidth为只读</li>
+</ul>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>震惊！React新版本搞事情，proxy没有办法配置多个源了</title>
+    <url>/2019/09/07/%E9%9C%87%E6%83%8A%EF%BC%81React%E6%96%B0%E7%89%88%E6%9C%AC%E6%90%9E%E4%BA%8B%E6%83%85%EF%BC%8Cproxy%E6%B2%A1%E6%9C%89%E5%8A%9E%E6%B3%95%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA%E6%BA%90%E4%BA%86/</url>
+    <content><![CDATA[<p><code>When specified, &quot;proxy&quot; in package.json must be a string. Instead, the type of &quot;proxy&quot; was &quot;object&quot;. Either remove &quot;proxy&quot; from package.json, or make it a string.</code></p>
+<p>夭寿！<code>React</code>更新总是让老代码出<code>Bug</code>，头秃的一匹。</p>
+<p>之前：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	proxy<span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;/api&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">  		<span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://proxy.XXX.cn:8000&quot;</span></span><br><span class="line">  	<span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>好好的代码，更新完就不能用了。</p>
+<p>怎么解决呢？</p>
+<p><code>npm install http-proxy-middleware</code></p>
+<p>然后在<code>src</code>目录下新建<code>src/setupProxy.js</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> proxy = <span class="built_in">require</span>(<span class="string">&#x27;http-proxy-middleware&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span>(<span class="params">app</span>) &#123;</span><br><span class="line">  app.<span class="title function_">use</span>(<span class="title function_">proxy</span>(<span class="string">&#x27;/api&#x27;</span>, &#123; <span class="attr">target</span>: <span class="string">&#x27;http://proxy.XXX.cn:8000&#x27;</span> &#125;))</span><br><span class="line">  app.<span class="title function_">use</span>(<span class="title function_">proxy</span>(<span class="string">&#x27;/static&#x27;</span>, &#123; <span class="attr">target</span>: <span class="string">&#x27;http://proxy.XXX.cn:9000/&#x27;</span> &#125;))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 或者：</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">proxy</span>(<span class="string">&#x27;/api&#x27;</span>, &#123; </span><br><span class="line"><span class="attr">target</span>: <span class="string">&#x27;http://proxy.XXX.cn:8000&#x27;</span>,</span><br><span class="line"><span class="attr">changeOrigin</span>:<span class="literal">true</span>,</span><br><span class="line"><span class="attr">pathRewrite</span>: &#123;</span><br><span class="line">            <span class="string">&quot;^/api&quot;</span>: <span class="string">&quot;/&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line"> &#125;))</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+</search>
